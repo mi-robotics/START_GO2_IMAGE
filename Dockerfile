@@ -46,8 +46,15 @@ ENV LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/libtorch/lib
 # Set working directory
 WORKDIR /workspace
 
-COPY ./unitree_sdk2 ./unitree_sdk2
-COPY ./scripts ./scripts
+COPY . .
+
+# Run the install script and compile your C++ code
+RUN chmod +x /workspace/install.sh && \
+    /workspace/install.sh && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make
 
 # Default command can be a build script or simply a shell
 CMD ["/bin/bash"]
